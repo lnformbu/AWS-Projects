@@ -79,16 +79,18 @@ We will create a private repository in Amazon ECR and push the container image w
 <br>
 
 2. Create a new Repository called ` nginx-web-app`
-<br>
 ![nginx-app](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-2.2.9e51f3c15d51680c58289aa616dede6b311da22d.png)
+<br>
 
 3. Once the repository has been created, select the radio button for the repository, and then select View push commands.
-<br>
+
 ![ECR](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-2.3.37756c8c701bc7b49f9b0ec0a69c46c6c8f47d7c.png)
+<br>
 
 4. Now, follow all the steps in the pop-up window, to authenticate and push the image to the repository.
-<br>
+
 ![ECR](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-2.4.e077fa58bedfd59da20b2a175f73da2f14089d72.png)
+<br>
 
 5. Retrieve an authentication token and authenticate your Docker client to your registry. Use the AWS CLI:
 
@@ -115,31 +117,36 @@ We will create a private repository in Amazon ECR and push the container image w
 1. Go to the AWS App Runner console and choose Create App Runner service.
 
 2. In the Source and deployment section, leave the default selections for Repository type and Provider. For Container image URI, select Browse.
+
 ![Image URI](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-3.2.85166afbe7c658e963fdde2c876cd2936a7bcb5e.png)
 <br>
 
-3. In the pop-up window, for Image repository, select nginx-web-app, and choose Continue.
+4. In the pop-up window, for Image repository, select nginx-web-app, and choose Continue.
+   
 ![Image URI](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-3.3.bd0362795dbd1ab907c2230397cebb75e1a312cb.png)
 <br>
 
-4.  In the Deployment settings section, for ECR access role, select Create new service role, and choose Next.
+6.  In the Deployment settings section, for ECR access role, select Create new service role, and choose Next.
+   
 ![service role](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-3.4.80a4873ead30d0a6d5b5fcda5ea7e900ba532ecf.png)
 <br>
 
-5. On the Configure service page, for Service name enter nginx-web-app-service, and change the Port to 80. Leave the rest as default, and select Next.
+6. On the Configure service page, for Service name enter nginx-web-app-service, and change the Port to 80. Leave the rest as default, and select Next.
+   
 ![Image URI](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-3.5.1824a8dfb4bd427199c49fa5a0799a0ef0460b52.png)
 
-6. On the Review and create page, review all inputs, and choose Create & deploy. 
+8. On the Review and create page, review all inputs, and choose Create & deploy. 
 <br>
 
-7. It will take several minutes for the service to be deployed. You can view the event logs for progress.
+9. It will take several minutes for the service to be deployed. You can view the event logs for progress.
 
 ![Image URI](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-3.7.aca1de008748b4d6ffe2ce5791ba0fca3f07640a.png)
 
 8. Once the status updates to Running, choose the default domain name URL to view the web app.
 <br>
 
-9. The Welcome page and confirmation message should look like the image on the right.  
+9. The Welcome page and confirmation message should look like the image on the right.
+    
 ![welcom](https://d1.awsstatic.com/Getting%20Started/tutorials/deploy-web-app-ngnix-app-runner/web-app-nginx-apprunner-3.9.bf78ed599cec057b0a60c99db738e41ed7f5cbba.png)
 <br>
 
