@@ -10,13 +10,13 @@ locals {
   ami_filter_values = ["al2023-ami-2023.*-x86_64"]
 
   #  key-pair configs
-  key_name   = var.key_name
-  filename  = "tfkey" #"${path.module}/tfkey.pem"
+  key_name = var.key_name
+  filename = "tfkey" #"${path.module}/tfkey.pem"
 
   # Use variable if provided, otherwise use the default tags
   tags = var.tags != null ? var.tags : {
     Name        = "lab-001"
-    prjects = "aws-labs"
+    prjects     = "aws-labs"
     deployment  = "terraform"
     Environment = "Dev"
     Author      = "Lenon"
@@ -39,11 +39,11 @@ locals {
   # storage
   ################################################################################
 
-# S3 state config
+  # S3 state config
   # bucket = coalesce("tfstate-lab-001", var.bucket)
   # status = "Enabled"
 
-# aws_dynamodb_table config
+  # aws_dynamodb_table config
   # name           = "app-state"
   # read_capacity  = 1
   # write_capacity = 1
@@ -52,4 +52,4 @@ locals {
   # attribute_name = "LockID"
   # attribute_type = "S"
 
-  }
+}

@@ -2,7 +2,7 @@
 
 provider "aws" {
   region = "us-east-1"
-  # shared_credentials_files = "~/.aws/credentials"
+  
 }
 
 terraform {
@@ -17,9 +17,9 @@ terraform {
       source  = "hashicorp/local"
       version = ">= 2.5.1"
     }
-        tls = {
-      source = "hashicorp/tls"
-      version = ">=  4.0.5"
+    tls = {
+      source  = "hashicorp/tls"
+      version = ">= 4.0.5"
     }
   }
 

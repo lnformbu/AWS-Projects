@@ -1,3 +1,22 @@
+## Table of Contents
+
+1. [Project Name](#project-name)
+2. [Goal](#goal)
+3. [Lab-001](#lab-001)
+    1. [A Single EC2 Instance](#a-single-ec2-instance)
+    2. [Architecture Diagram](#architecture-diagram)
+4. [Guide](#guide)
+    1. [Step 1 - Select the AMI](#step-1---select-the-ami)
+    2. [Step 2 - Select the Instance Type](#step-2---select-the-instance-type)
+    3. [Step 3 - Create a Key Pair](#step-3---create-a-key-pair)
+    4. [Step 4 - Configure Network Settings](#step-4---configure-network-settings)
+    5. [Step 5 - Configure Storage](#step-5---configure-storage)
+    6. [Step 6 - Add Tags (Optional)](#step-6---add-tags-optional)
+    7. [Step 7 - Launch the Instance](#step-7---launch-the-instance)
+5. [Test & Validation](#test--validation)
+6. [BONUS](#bonus)
+
+
 # Project Name 
 `Lab-001`
 
