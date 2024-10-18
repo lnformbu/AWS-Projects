@@ -12,29 +12,29 @@ data "aws_ami" "main" {
 }
 
 
+
 ################################################################################
 # EC2 Instance
 ################################################################################
 
 resource "aws_instance" "main" {
-  ami                         = local.ami
-  instance_type               = local.instance_type
+  ami                         = coalesce(var.ami, data.aws_ami.main.id)
+  instance_type               = var.instance_type
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = var.associate_public_ip_address
-
 
   tags = local.tags
 
   depends_on = [
-    aws_subnet.main
+    aws_subnet.main,
+    aws_key_pair.main
   ]
 }
 
-
 # Creates key pair
 resource "aws_key_pair" "main" {
-  key_name   = local.key_name
-  public_key = local.public_key
+  key_name   = coalesce("lab-001-key", local.key_name)
+  public_key = tls_private_key.main.public_key_openssh
   tags       = local.tags
 
   depends_on = [
@@ -42,17 +42,26 @@ resource "aws_key_pair" "main" {
   ]
 }
 
+
 # RSA key of size 4096 bits
 resource "tls_private_key" "main" {
-  algorithm = local.algorithm
-  rsa_bits  = local.rsa_bits
+  algorithm = var.algorithm
+  rsa_bits  = var.rsa_bits
 }
+
 
 # Saves the key to local machine
 resource "local_file" "main" {
   content  = tls_private_key.main.private_key_pem
   filename = local.filename
+
+  depends_on = [
+    tls_private_key.main
+  ]
 }
+
+
+
 
 ################################################################################
 # VPC and Subnet

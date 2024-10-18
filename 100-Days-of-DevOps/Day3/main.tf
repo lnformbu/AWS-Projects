@@ -71,10 +71,10 @@ resource "aws_instance" "Day2" {
   subnet_id         = aws_subnet.Day2.id
   get_password_data = false
 
-  cpu_options {
-    core_count       = 2
-    threads_per_core = 2
-  }
+  # cpu_options {
+  #   core_count       = 2
+  #   threads_per_core = 2
+  # }
 
   tags = {
     Name = "tf-Day2"

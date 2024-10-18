@@ -1,3 +1,9 @@
+
+
+
+
+
+
 # variables.tf - Variables in alphabetical order
 
 variable "ami" {
@@ -14,7 +20,7 @@ variable "ami" {
 variable "instance_type" {
   description = "(Optional) The type of instance to start"
   type        = string
-  default     = null
+  default     = "t2.micro"
 }
 
 
@@ -32,13 +38,6 @@ variable "key_name" {
   type        = string
   default     = null
 
-}
-
-
-variable "public_key" {
-  description = "(Required) The public key material."
-  type        = string
-  default     = ""
 }
 
 
@@ -79,13 +78,13 @@ variable "subnet_cidr_block" {
 
 
 
-variable "bucket" {
-  description = <<info
-  (Optional, Forces new resource) Name of the bucket. If omitted, Terraform will assign a random, unique name. Must be lowercase and less than or equal to 63 characters in length. 
-  info
-  type        = string
-  default     = null
-}
+# variable "bucket" {
+#   description = <<info
+#   (Optional, Forces new resource) Name of the bucket. If omitted, Terraform will assign a random, unique name. Must be lowercase and less than or equal to 63 characters in length. 
+#   info
+#   type        = string
+#   default     = null
+# }
 
 
 
