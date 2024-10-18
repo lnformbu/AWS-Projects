@@ -1,3 +1,20 @@
+## Table of Contents
+
+1. [Note](#note)
+2. [Requirements](#requirements)
+3. [Providers](#providers)
+4. [Modules](#modules)
+5. [Resources](#resources)
+6. [Inputs](#inputs)
+7. [Outputs](#outputs)
+
+
+## NOTE :
+- key pair will not be saved to local machine when using terraform cloud as backend
+- Available option to save it to an S3 bucket.
+- I have the [TFLint Ruleset](https://github.com/terraform-linters/tflint-ruleset-aws/blob/master/README.md) for terraform-provider-aws installed for run tflint. 
+
+
 ## Requirements
 
 | Name | Version |
@@ -52,6 +69,3 @@ No modules.
 No outputs.
 
 
-## NOTE :
-- key pair will not be saved to local machine when using terraform cloud as backend
-- Available option to save it to an S3 bucket.
