@@ -5,6 +5,9 @@
 *.tfstate
 *.tfstate.*
 
+# .tflint files
+.tflint.hcl
+
 # .tfvars files
 *.tfvars
 !test.tfvars
