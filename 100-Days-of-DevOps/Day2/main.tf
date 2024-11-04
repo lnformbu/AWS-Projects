@@ -41,7 +41,7 @@ resource "aws_instance" "Day2" {
   instance_type               = "c6a.2xlarge"
   subnet_id                   = aws_subnet.Day2.id
   get_password_data           = false
-  key_name = "demo"
+  key_name                    = "demo"
 
   cpu_options {
     core_count       = 2

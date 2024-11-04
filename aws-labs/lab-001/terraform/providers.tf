@@ -2,7 +2,7 @@
 
 provider "aws" {
   region = "us-east-1"
-  
+
 }
 
 terraform {
@@ -24,12 +24,12 @@ terraform {
   }
 
   # Save State file on terraform cloud or S3
-  # cloud {
-  #   organization = "AWS-100DaysofDevOps"
-  #   workspaces {
-  #     name = "100DaysDevOps"
-  #   }
-  # }
+  cloud {
+    organization = "AWS-100DaysofDevOps"
+    workspaces {
+      name = "100DaysDevOps"
+    }
+  }
 
   # # uncomment if using s3 bucket for remote state
 

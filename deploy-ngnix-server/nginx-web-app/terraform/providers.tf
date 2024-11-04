@@ -1,13 +1,21 @@
 terraform {
   required_version = ">= 1.7.0"
   required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "~> 3.0.2"
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.66, < 5.67.0"
+    }
+  }
+  cloud {
+    organization = "AWS-100DaysofDevOps"
+    workspaces {
+      name = "100DaysDevOps"
     }
   }
 }
 
-provider "docker" {
-  host = "npipe:////.//pipe//docker_engine"
+
+
+provider "aws" {
+  region = "us-east-1"
 }
