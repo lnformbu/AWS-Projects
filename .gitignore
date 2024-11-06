@@ -5,6 +5,13 @@
 *.tfstate
 *.tfstate.*
 
+# lab-001.pem aws key file.
+*.pem
+
+# .tflint files
+.tflint.hcl
+*.tflint.hcl
+
 # .tfvars files
 *.tfvars
 !test.tfvars
