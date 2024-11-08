@@ -19,12 +19,13 @@
 - [Deleting IPAM Resources](#deleting-ipam-resources)
   - [Destroying the Remaining Resources](#destroying-the-remaining-resources)
 - [Conclusion](#conclusion)
-- [Requirements](#requirements)
-- [Providers](#providers)
-- [Modules](#modules)
-- [Resources](#resources)
-- [Inputs](#inputs)
-- [Outputs](#outputs)
+- [Terraform Configuration](#terraform-configuration)
+    - [Requirements](#requirements)
+    - [Providers](#providers)
+    - [Modules](#modules)
+    - [Resources](#resources)
+    - [Inputs](#inputs)
+    - [Outputs](#outputs)
 
 ---
 
@@ -432,6 +433,8 @@ Here’s what we covered:
 
 
 ____
+
+# Terraform Configuration. 
 
 ## Requirements
 
