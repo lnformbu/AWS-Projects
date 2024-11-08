@@ -239,3 +239,4 @@ Initialize Terraform to get required modules and providers
 can see the VPC in the console
 
 ![cons](img/cons.jpg)
+
