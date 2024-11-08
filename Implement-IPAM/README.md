@@ -22,7 +22,7 @@
 
 ---
 
-![tfa](img/ipam.jpg)
+![tfa](img/IPAM.jpg)
 
 Managing IP addresses efficiently can feel like herding cats, especially when working with complex AWS environments. That’s where Amazon VPC IP Address Manager (IPAM) comes to the rescue and why I’m excited to share how I implemented it using Terraform. This hands on guide will walk you through the steps I took to automate and simplify IP address management in AWS. 
 
@@ -37,7 +37,7 @@ By integrating it with Terraform, I was able to make the entire process more pre
 
 Implementing IPAM transformed how I approached network management in AWS. Instead of dealing with scattered spreadsheets and the constant fear of overlapping IP addresses, I had a centralized solution. This not only saved me hours of work but also reduced errors and provided a clear overview of IP utilization. If you’re dealing with complex AWS environments, mastering IPAM can bring the same clarity and efficiency to your workflows.
 
-![tfa](img/ipamm.jpg)
+![tfa](img/IPAMM.jpg)
 
 ## IPAM Overview: The Building Blocks
 
