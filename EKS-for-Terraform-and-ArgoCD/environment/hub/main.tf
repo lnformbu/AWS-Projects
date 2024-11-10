@@ -122,56 +122,54 @@ module "eks" {
 # # Install Argo CD with GitOps Bridge
 # #############################################################################################################################
 
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "aws"
+      # This requires the awscli to be installed locally where Terraform is executed
+      args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name, "--region", local.region]
+    }
+  }
+}
 
 
-# provider "helm" {
-#   kubernetes {
-#     host                   = module.eks.cluster_endpoint
-#     cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+resource "kubernetes_namespace" "argocd" {
+  metadata {
+    name = local.argocd_namespace
+  }
+  depends_on = [ module.eks ]
+}
 
-#     exec {
-#       api_version = "client.authentication.k8s.io/v1beta1"
-#       command     = "aws"
-#       # This requires the awscli to be installed locally where Terraform is executed
-#       args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name, "--region", local.region]
-#     }
-#   }
-# }
+################################################################################
+# GitOps Bridge: Bootstrap
+################################################################################
 
+module "gitops_bridge_bootstrap" {
+  source = "gitops-bridge-dev/gitops-bridge/helm"
+  version = "0.1.0"
+  cluster = {
+    cluster_name = module.eks.cluster_name
+    environment  = local.environment
+    #enablemetadata metadata     = local.addons_metadata
+    #enablemetadata addons       = local.addons
+  }
 
-# resource "kubernetes_namespace" "argocd" {
-#   metadata {
-#     name = local.argocd_namespace
-#   }
-#   depends_on = [ module.eks ]
-# }
+  # enableapps apps = local.argocd_apps
+  argocd = {
+    name = "argocd"
+    namespace        = local.argocd_namespace
+    chart_version    = "7.5.2"
+    values = [file("${path.module}/argocd-initial-values.yaml")]
+    timeout          = 600
+    create_namespace = false
+  }
 
-# ################################################################################
-# # GitOps Bridge: Bootstrap
-# ################################################################################
-
-# module "gitops_bridge_bootstrap" {
-#   source = "gitops-bridge-dev/gitops-bridge/helm"
-#   version = "0.1.0"
-#   cluster = {
-#     cluster_name = module.eks.cluster_name
-#     environment  = local.environment
-#     #enablemetadata metadata     = local.addons_metadata
-#     #enablemetadata addons       = local.addons
-#   }
-
-#   # enableapps apps = local.argocd_apps
-#   argocd = {
-#     name = "argocd"
-#     namespace        = local.argocd_namespace
-#     chart_version    = "7.5.2"
-#     values = [file("${path.module}/argocd-initial-values.yaml")]
-#     timeout          = 600
-#     create_namespace = false
-#   }
-
-#   depends_on = [ module.eks ]
-# }
+  depends_on = [ module.eks ]
+}
 
 
 
