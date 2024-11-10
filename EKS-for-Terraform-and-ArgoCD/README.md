@@ -400,7 +400,4 @@ configs:
 
 ## validate Argo CD Is Installed
 
-Get Argo CD dashboard URL:
-
-1
-argocd_hub_credentials
+I will continue with this lab shortly. Stay Tuned.
