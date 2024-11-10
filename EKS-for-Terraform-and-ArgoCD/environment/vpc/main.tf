@@ -4,7 +4,7 @@
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 5.0.0"
+  version = "~> 5.1"
 
   name = local.name
   cidr = local.vpc_cidr
@@ -29,13 +29,20 @@ module "vpc" {
     "kubernetes.io/role/elb" = 1
   }
 
-  private_subnet_tags = {
-    "kubernetes.io/role/internal-elb" = 1
-    # Tags subnets for Karpenter auto-discovery
-    "karpenter.sh/discovery" = local.name
-  }
+  # private_subnet_tags = {
+  #   "kubernetes.io/role/internal-elb" = 1
+  #   # Tags subnets for Karpenter auto-discovery
+  #   "karpenter.sh/discovery" = local.name
+  # }
+
+  private_subnet_tags = merge(local.tags, {
+    "karpenter.sh/discovery"          = local.name
+    "kubernetes.io/role/internal-elb" = "1"
+  })
+
 
   tags = local.tags
 
 }
+
 

@@ -231,12 +231,173 @@ Initialize Terraform to get required modules and providers
 ![tf](img/tf.jpg)
 - Preview the Changes: `terraform plan`
 ![tf1](img/tf1.jpg)
-![tfc](img/tfc.jpg)
 - Deploy the VPC: `terraform apply -auto-approve`
-![tf2](img/tf2.jpg)
 ![tfc1](img/tfc1.jpg)
 **💡 Tip:** The VPC creation might take a few minutes (5 or more). Once completed, you'll see the outputs, including your VPC ID and private subnets.
 can see the VPC in the console
 
 ![cons](img/cons.jpg)
 
+___
+
+# Create EKS Cluster
+
+Next, I deployed the EKS cluster which is the heart of my Kubernetes setup right within my newly crafted VPC. Using the EKS Terraform module made it easy.With this setup below, my cluster was secure, scalable, and ready for anything. Finally, everything was coming together.
+
+![eks](img/eks.jpg)
+
+
+
+### Script to Create Necessary Files
+This script will create the necessary files for setting up the EKS cluster. 
+```bash
+#!/bin/bash
+
+# Step 1: Set up the Terraform project directory
+mkdir -p environment/hub
+cd environment/hub
+
+# Step 2: Create empty Terraform configuration files
+
+touch remote_state.tf 
+touch variables.tf
+touch main.tf
+touch outputs.tf
+touch locals.tf
+touch README.md
+touch data.tf
+touch terraform.tfvars
+
+echo "🎉 All necessary files have been created in environment/hub! Now, let's get them filled with the right code. Follow the instructions below."
+
+```
+Add the content of each file as found in `environment/hub`
+___
+
+- Initialize Terraform: `terraform init`
+- Preview the Changes: `terraform plan`
+![eks1](img/eks1.jpg)
+- Deploy the VPC: `terraform apply -auto-approve`
+The process of creating Amazon EKS cluster typically requires approximately 15 minutes to complete.
+![tfc1](img/tfc1.jpg)
+Wait for resources to create
+
+___
+
+- To configure kubectl, execute the following command, which retrieves the connection details from the Terraform output to access the cluster:
+
+```bash
+eval $(terraform output -raw configure_kubectl)
+```
+
+- To verify that kubectl is correctly configured, run the command below to see the nodes in the EKS cluster.
+
+```bash
+kubectl get nodes --context hub-cluster
+```
+
+- Expected output:
+
+![alt text](image.png)
+
+<br>
+
+![cons2](img/cons2.jpg)
+
+<br>
+
+
+# Installing Argo CD on the Hub Cluster
+
+I approached this step with both excitement and a bit of anxiety. Setting up Argo CD was crucial to bringing GitOps to life, and thankfully, GitOps Bridge promised to make the setup painless. Here’s how it all came together.
+
+![ekss](img/ekss.jpg)
+
+
+
+## Step 1: Configure GitOps Bridge
+
+The GitOps Bridge module handled the heavy lifting. It configured Argo CD and set up a load balancer to give easy access to the Argo CD dashboard.
+
+***Code Highlights***: Add to `environment/hub/main.tf`
+
+```hcl
+
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "aws"
+      # This requires the awscli to be installed locally where Terraform is executed
+      args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name, "--region", local.region]
+    }
+  }
+}
+
+locals{
+  argocd_namespace = "argocd"
+  environment     = "control-plane"
+}
+
+resource "kubernetes_namespace" "argocd" {
+  metadata {
+    name = local.argocd_namespace
+  }
+}
+################################################################################
+# GitOps Bridge: Bootstrap
+################################################################################
+module "gitops_bridge_bootstrap" {
+  source = "gitops-bridge-dev/gitops-bridge/helm"
+  version = "0.1.0"
+  cluster = {
+    cluster_name = module.eks.cluster_name
+    environment  = local.environment
+    #enablemetadata metadata     = local.addons_metadata
+    #enablemetadata addons       = local.addons
+  }
+
+  #enableapps apps = local.argocd_apps
+  argocd = {
+    name = "argocd"
+    namespace        = local.argocd_namespace
+    chart_version    = "7.5.2"
+    values = [file("${path.module}/argocd-initial-values.yaml")]
+    timeout          = 600
+    create_namespace = false
+  }
+}
+
+```
+
+## Step 2: Create the Argo CD Values File
+
+Next, I set custom values for Argo CD using a simple YAML file. This included tolerations for critical workloads and a delay in the sync wave to control application rollouts. I also configured a banner to identify our management environment.
+
+- Create Touch `environment/hub/argocd-initial-values.yaml` file
+- Added code below, this is our value file for ArgoCD
+
+```yml
+global:
+  tolerations:
+  - key: "CriticalAddonsOnly"
+    operator: "Exists"
+controller:
+  env:
+    - name: ARGOCD_SYNC_WAVE_DELAY
+      value: '30'
+configs:
+  cm:
+    ui.bannercontent: "Management Environment"
+  params:
+    server.insecure: true
+    server.basehref: /proxy/8081/
+
+```
+
+## validate Argo CD Is Installed
+
+I will continue with this lab shortly. Stay Tuned.
